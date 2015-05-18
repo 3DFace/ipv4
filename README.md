@@ -1,4 +1,4 @@
-# dface/container
+# dface/ipv4
 
 PHP classes for IPv4 address and subnet. Extracted from my private project to use in other projects.
 
