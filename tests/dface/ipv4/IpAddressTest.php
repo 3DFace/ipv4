@@ -3,16 +3,20 @@
 
 namespace dface\ipv4;
 
-class IpAddressTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
 
-	protected function getTestScope(){
+class IpAddressTest extends TestCase {
+
+	protected function getTestScope() : array
+	{
 		return ['1.1.1.1', '127.0.0.1', '10.10.10.1', '194.50.85.1', '192.168.0.6', '255.255.255.1'];
 	}
 
 	/**
 	 * @return IpAddress[]
 	 */
-	protected function getTestAddresses(){
+	protected function getTestAddresses() : array
+	{
 		$addresses = [];
 		foreach($this->getTestScope() as $ip_str){
 			$addresses[$ip_str] = IpAddress::fromString($ip_str);
@@ -20,40 +24,40 @@ class IpAddressTest extends \PHPUnit_Framework_TestCase {
 		return $addresses;
 	}
 
-	function testFromString(){
+	public function testFromString() : void
+	{
 		foreach($this->getTestAddresses() as $ip_str=>$ip){
-			$this->assertEquals($ip->toString(), $ip_str);
+			self::assertEquals((string)$ip, $ip_str);
 		}
 	}
 
-	function testFromLong(){
+	public function testFromLong() : void
+	{
 		foreach($this->getTestScope() as $ip_str){
 			$long = ip2long($ip_str);
 			$ip = new IpAddress($long);
-			$this->assertEquals($ip->toLong(), $long);
+			self::assertEquals($ip->toLong(), $long);
 		}
 	}
 
-	function testStringSourceException(){
-		$this->setExpectedException(\InvalidArgumentException::class);
-		new IpAddress("1.1");
-	}
-
-	function testBadFormatException(){
-		$this->setExpectedException(\InvalidArgumentException::class);
+	public function testBadFormatException() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
 		IpAddress::fromString('1');
 	}
 
-	function testToUnsigned(){
+	public function testToUnsigned() : void
+	{
 		$ip = IpAddress::fromString('255.255.255.1');
-		$this->assertEquals(0xffffff01, $ip->toUnsigned());
+		self::assertEquals(0xffffff01, $ip->toUnsigned());
 	}
 
-	function testSort(){
+	public function testSort() : void
+	{
 		$list = $this->getTestAddresses();
 		IpAddress::sort($list);
 		$ip_sorted = implode(" ", IpAddress::toStringList($list));
-		$this->assertEquals("1.1.1.1 10.10.10.1 127.0.0.1 192.168.0.6 194.50.85.1 255.255.255.1", $ip_sorted);
+		self::assertEquals("1.1.1.1 10.10.10.1 127.0.0.1 192.168.0.6 194.50.85.1 255.255.255.1", $ip_sorted);
 	}
 
 }

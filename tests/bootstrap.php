@@ -1,3 +1,3 @@
 <?php
-$loader = require_once __DIR__ . '/../vendor/autoload.php';
-$loader->add('dface\\', __DIR__ );
+require_once __DIR__ . '/../vendor/autoload.php';
+error_reporting(E_ALL);
