@@ -17,5 +17,10 @@
 	},
 	"autoload": {
 		"psr-0": {"dface": "src/"}
+	},
+	"config": {
+		"platform": {
+			"php": "8.2.5"
+		}
 	}
 }
